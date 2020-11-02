@@ -7,6 +7,7 @@
     <tr>
       <th>Wine</th>
       <th>Strain</th>
+      <th>%</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= wine_strain.wine_id %></td>
         <td><%= wine_strain.strain_id %></td>
+        <td><%= wine_strain.percentage %></td>
         <td><%= link_to 'Show', wine_strain %></td>
         <td><%= link_to 'Edit', edit_wine_strain_path(wine_strain) %></td>
         <td><%= link_to 'Destroy', wine_strain, method: :delete, data: { confirm: 'Are you sure?' } %></td>

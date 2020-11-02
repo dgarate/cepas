@@ -1,4 +1,6 @@
 class WinesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :authorize_admin!, except: [:index]
   before_action :set_wine, only: [:show, :edit, :update, :destroy]
 
   # GET /wines
@@ -30,6 +32,10 @@ class WinesController < ApplicationController
       if @wine.save
         wine_params[:strain_ids].reject(&:empty?).each_with_index do |id, index|
           WineStrain.create(wine_id: @wine.id, strain_id: id, percentage: wine_params[:percentages][index])
+        end
+        wine_params[:oenologist_ids].reject(&:empty?).each_with_index do |oenologist_id, index|
+          grades_list = wine_params[:grades].reject(&:empty?)
+          WineOenologist.create(oenologist_id: oenologist_id, wine_id: @wine.id, grades: grades_list[index])
         end
         format.html { redirect_to @wine, notice: 'Wine was successfully created.' }
         format.json { render :show, status: :created, location: @wine }
@@ -72,6 +78,6 @@ class WinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def wine_params
-      params.require(:wine).permit(:name, strain_ids:[], percentages:[])
+      params.require(:wine).permit(:name, strain_ids:[], percentages:[], oenologist_ids: [], grades: [])
     end
 end

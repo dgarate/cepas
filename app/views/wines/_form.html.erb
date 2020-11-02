@@ -26,6 +26,18 @@
     <% end %>
   </div>
 
+<div class="field">
+    <%= form.label :oenologist %>
+    <%= form.collection_check_boxes(:oenologist_ids, Oenologist.all.order('age DESC'), :id, :name) do |b| %>
+      <%= b.label class:"label-checkbox" do%>
+        <%=b.check_box + b.text%>
+       
+      <%end%>
+      <%= form.label :grade %>
+      <%= form.number_field '', min: 1, max: 100, name: 'wine[grades][]'%> 
+    <% end %>
+  </div>
+
 
   <div class="actions">
     <%= form.submit %>
